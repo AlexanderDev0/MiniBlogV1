@@ -1,2 +1,4 @@
-package com.descomplica.FrameBlog.controllers;public class CommentController {
+package com.descomplica.FrameBlog.controllers;
+
+public class CommentController {
 }

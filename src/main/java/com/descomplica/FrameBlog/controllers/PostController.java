@@ -1,2 +1,4 @@
-package com.descomplica.FrameBlog.controllers;public class PostController {
+package com.descomplica.FrameBlog.controllers;
+
+public class PostController {
 }
