@@ -27,6 +27,9 @@ public class Post {
         this.userId = userId;
     }
 
+    public Post(Long postId, String title, String content, Date date, User userId, Object tagId) {
+    }
+
     public Long getPostId() {
         return postId;
     }
@@ -65,5 +68,9 @@ public class Post {
 
     public void setUserId(User userId) {
         this.userId = userId;
+    }
+
+    public Object getTagId() {
+        return null;
     }
 }

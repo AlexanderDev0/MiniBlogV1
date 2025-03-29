@@ -5,13 +5,10 @@ import com.descomplica.FrameBlog.models.User;
 import java.util.List;
 
 public interface UserService {
-    User save(User user);
 
-    User get(Long id);
-
+    User save(final User user);
     List<User> getAll();
-
-    User update(Long id, User user);
-
-    void delete(Long id);
+    User get(final Long id);
+    User update(final Long id, final User user);
+    void delete(final Long id);
 }
