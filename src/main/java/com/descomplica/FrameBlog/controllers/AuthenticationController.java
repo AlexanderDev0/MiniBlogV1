@@ -12,11 +12,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class AuthenticationController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private AuthenticationService authenticationService;
+    private final AuthenticationManager authenticationManager;
+
+
+    private final AuthenticationService authenticationService;
+
+    public AuthenticationController(AuthenticationManager authenticationManager, AuthenticationService authenticationService) {
+        this.authenticationManager = authenticationManager;
+        this.authenticationService = authenticationService;
+    }
 
     @PostMapping(path="/login")
     @ResponseStatus(HttpStatus.OK)

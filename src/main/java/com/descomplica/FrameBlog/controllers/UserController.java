@@ -12,8 +12,14 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/users")
 public class UserController {
-    @Autowired
-    private UserService userService;
+
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+
 
     @PostMapping("/save")
     private @ResponseBody User save(@RequestBody User user) {

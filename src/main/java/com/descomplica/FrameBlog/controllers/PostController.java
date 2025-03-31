@@ -11,8 +11,14 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/posts")
 public class PostController {
-    @Autowired
-    private PostService postService;
+
+    private final PostService postService;
+
+    public PostController(PostService postService) {
+        this.postService = postService;
+    }
+
+
 
     @PostMapping(path = "/save")
     private @ResponseBody Post save(@RequestBody Post post) {

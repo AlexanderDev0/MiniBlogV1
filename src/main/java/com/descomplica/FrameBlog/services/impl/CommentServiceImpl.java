@@ -1,6 +1,7 @@
 package com.descomplica.FrameBlog.services.impl;
 
 import com.descomplica.FrameBlog.models.Comment;
+import com.descomplica.FrameBlog.repositories.CommentRepository;
 import com.descomplica.FrameBlog.services.CommentService;
 import com.descomplica.FrameBlog.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,12 @@ public class CommentServiceImpl implements CommentService {
 
 
 
-    @Autowired
-    private UserService userService;
+
+    private final UserService userService;
+
+    public CommentServiceImpl(UserService userService) {
+        this.userService = userService;
+    }
 
     @Value("${FrameBlog.rabbitmq.exchange}")
     private String exchange;

@@ -14,10 +14,15 @@ import java.util.Objects;
 @Service
 public class PostServiceImpl implements PostService {
 
-    @Autowired
-    private PostRepository postRepository;
-    @Autowired
-    private TagRepository tagRepository;
+
+    private final PostRepository postRepository;
+
+    private final TagRepository tagRepository;
+
+    public PostServiceImpl(PostRepository postRepository, TagRepository tagRepository) {
+        this.postRepository = postRepository;
+        this.tagRepository = tagRepository;
+    }
 
     @Override
     public Post save(final Post post) {

@@ -1,23 +1,25 @@
 package com.descomplica.FrameBlog.services.impl;
 
-import ch.qos.logback.classic.encoder.JsonEncoder;
 import com.descomplica.FrameBlog.models.User;
 import com.descomplica.FrameBlog.repositories.UserRepository;
 import com.descomplica.FrameBlog.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+
+    private final PasswordEncoder passwordEncoder;
+
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public User save(final User user) {
@@ -36,14 +38,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User get(Long id) {
-        return null;
+    public List<User> getAll() {
+        return userRepository.findAll();
     }
 
     @Override
-    public List<User> getAll() {
-        return List.of();
+    public User get(final Long id) {
+    return userRepository.findById(id).orElseThrow(
+            () -> new EntityNotFoundException("User not found")
+    );
+
     }
+
+
+
 
     @Override
     public User update(final Long id,final User user) {

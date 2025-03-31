@@ -11,8 +11,13 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/tags")
 public class TagController {
-    @Autowired
-    private TagService tagService;
+
+    private final TagService tagService;
+
+    public TagController(TagService tagService) {
+        this.tagService = tagService;
+
+    }
 
     @PostMapping(path = "/save")
     private @ResponseBody Tag save(@RequestBody Tag tag) {
