@@ -46,7 +46,7 @@ public class SpringSecurityAuthentication {
                         .requestMatchers(HttpMethod.GET, "/users/get").hasRole("USER")
                         .requestMatchers(HttpMethod.POST, "/users/update").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/users/delete").hasRole("ADMIN")
-
+                                .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

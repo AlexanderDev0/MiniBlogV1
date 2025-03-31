@@ -1,12 +1,16 @@
 package com.descomplica.FrameBlog.services.v2;
 
-public interface AdressServiceV2 {
+import com.descomplica.FrameBlog.models.v2.AddressV2;
 
-    AdressV2 save (final AdressV2 adressV2);
+import java.util.List;
 
-    List<AdressV2> getAll();
+public interface AddressServiceV2 {
 
-    AdressV2 get(final Long id);
-    AdressV2 update(final Long id, final AdressV2 adressV2);
+    AddressV2 save (final AddressV2 adressV2);
+
+    List<AddressV2> getAll();
+
+    AddressV2 get(final Long id);
+    AddressV2 update(final Long id, final AddressV2 adressV2);
     void delete(final Long id);
 }

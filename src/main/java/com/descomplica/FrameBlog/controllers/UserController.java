@@ -1,10 +1,7 @@
 package com.descomplica.FrameBlog.controllers;
 
-import com.descomplica.FrameBlog.models.User;
-import com.descomplica.FrameBlog.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.ResponseEntity;
+import com.descomplica.FrameBlog.models.UserV2;
+import com.descomplica.FrameBlog.services.UserServiceV2;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,36 +10,36 @@ import java.util.List;
 @RequestMapping(path = "/users")
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceV2 userServiceV2;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(UserServiceV2 userServiceV2) {
+        this.userServiceV2 = userServiceV2;
     }
 
 
 
     @PostMapping("/save")
-    private @ResponseBody User save(@RequestBody User user) {
-        return userService.save(user);
+    private @ResponseBody UserV2 save(@RequestBody UserV2 userV2) {
+        return userServiceV2.save(userV2);
     }
     @GetMapping(path = "/getAll")
-    private @ResponseBody List<User> getAll() {
-        return userService.getAll();
+    private @ResponseBody List<UserV2> getAll() {
+        return userServiceV2.getAll();
     }
 
     @GetMapping(path="/get")
-    private @ResponseBody User get(@RequestParam final Long id) {
-        return userService.get(id);
+    private @ResponseBody UserV2 get(@RequestParam final Long id) {
+        return userServiceV2.get(id);
     }
 
     @PostMapping(path = "/update")
-    private @ResponseBody User update(@RequestParam final Long id, @RequestBody User user) {
-        return userService.update(id, user);
+    private @ResponseBody UserV2 update(@RequestParam final Long id, @RequestBody UserV2 userV2) {
+        return userServiceV2.update(id, userV2);
     }
 
     @DeleteMapping(path = "/delete")
     private void delete(@RequestParam final Long id) {
-        userService.delete(id);
+        userServiceV2.delete(id);
     }
 
 
