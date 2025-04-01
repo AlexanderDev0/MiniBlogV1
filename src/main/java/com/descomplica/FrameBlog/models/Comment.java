@@ -14,18 +14,18 @@ public class Comment {
     private String content;
     private Date date;
     @ManyToOne
-    private UserV2 userV2;
+    private User user;
     @ManyToOne
     private Post post;
 
     public Comment() {
     }
 
-    public Comment(final Long commentId, final String content, final Date date, final UserV2 userV2, final  Post post) {
+    public Comment(final Long commentId, final String content, final Date date, final User user, final  Post post) {
         this.commentId = commentId;
         this.content = content;
         this.date = date;
-        this.userV2 = userV2;
+        this.user = user;
         this.post = post;
     }
 
@@ -53,12 +53,12 @@ public class Comment {
         this.date = date;
     }
 
-    public UserV2 getUser() {
-        return userV2;
+    public User getUser() {
+        return user;
     }
 
-    public void setUser(UserV2 userV2) {
-        this.userV2 = userV2;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Post getPost() {

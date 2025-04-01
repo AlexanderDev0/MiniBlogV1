@@ -1,8 +1,8 @@
 package com.descomplica.FrameBlog.services.impl;
 
-import com.descomplica.FrameBlog.models.UserV2;
+import com.descomplica.FrameBlog.models.User;
 import com.descomplica.FrameBlog.repositories.UserRepository;
-import com.descomplica.FrameBlog.services.UserServiceV2;
+import com.descomplica.FrameBlog.services.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,40 +10,40 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class UserServiceV2Impl implements UserServiceV2 {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceV2Impl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public UserV2 save(final UserV2 userV2) {
-        UserV2 existingUserV2 = userRepository.findByUsername(userV2.getUsername()); // Correção aqui
+    public User save(final User user) {
+        User existingUser = userRepository.findByUsername(user.getUsername()); // Correção aqui
 
-        if (Objects.nonNull(existingUserV2)){
+        if (Objects.nonNull(existingUser)){
             throw new RuntimeException("Existing User");
         }
 
-        String passwordHash = passwordEncoder.encode(userV2.getPassword());
+        String passwordHash = passwordEncoder.encode(user.getPassword());
 
-        UserV2 entity = new UserV2(userV2.getUserId(), userV2.getName(), userV2.getEmail(), passwordHash, userV2.getRole(), userV2.getUsername());
+        User entity = new User(user.getUserId(), user.getName(), user.getEmail(), passwordHash, user.getRole(), user.getUsername());
 
-        UserV2 newUserV2 = userRepository.save(entity);
-        return new UserV2(newUserV2.getUserId(), newUserV2.getName(), newUserV2.getEmail(), newUserV2.getPassword(), newUserV2.getRole(), newUserV2.getUsername());
+        User newUser = userRepository.save(entity);
+        return new User(newUser.getUserId(), newUser.getName(), newUser.getEmail(), newUser.getPassword(), newUser.getRole(), newUser.getUsername());
     }
 
     @Override
-    public List<UserV2> getAll() {
+    public List<User> getAll() {
         return userRepository.findAll();
     }
 
     @Override
-    public UserV2 get(final Long id) {
+    public User get(final Long id) {
     return userRepository.findById(id).orElseThrow(
             () -> new EntityNotFoundException("User not found")
     );
@@ -54,16 +54,16 @@ public class UserServiceV2Impl implements UserServiceV2 {
 
 
     @Override
-    public UserV2 update(final Long id, final UserV2 userV2) {
-        UserV2 userV2Update = userRepository.findById(id).orElse(null);
-        if(Objects.nonNull(userV2Update)){
-            String passwordHash = passwordEncoder.encode(userV2.getPassword());
-            userV2Update.setName(userV2.getName());
-            userV2Update.setUsername(userV2.getUsername());
-            userV2Update.setEmail(userV2.getEmail());
-            userV2Update.setRole(userV2.getRole());
-            userV2Update.setPassword(userV2.getPassword());
-            return userRepository.save(userV2Update);
+    public User update(final Long id, final User user) {
+        User userUpdate = userRepository.findById(id).orElse(null);
+        if(Objects.nonNull(userUpdate)){
+            String passwordHash = passwordEncoder.encode(user.getPassword());
+            userUpdate.setName(user.getName());
+            userUpdate.setUsername(user.getUsername());
+            userUpdate.setEmail(user.getEmail());
+            userUpdate.setRole(user.getRole());
+            userUpdate.setPassword(user.getPassword());
+            return userRepository.save(userUpdate);
         }
         return null;
     }

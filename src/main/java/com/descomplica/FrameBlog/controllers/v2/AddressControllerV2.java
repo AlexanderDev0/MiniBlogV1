@@ -12,13 +12,8 @@ import java.util.List;
 
 public class AddressControllerV2 {
 
-
-    private final AddressServiceV2 addressServiceV2;
-
-    public AddressControllerV2(AddressServiceV2 addressServiceV2) {
-        this.addressServiceV2 = addressServiceV2;
-    }
-
+    @Autowired
+    private AddressServiceV2 addressServiceV2;
     @PostMapping(path = "/save")
     private @ResponseBody AddressV2 save(@RequestBody AddressV2 address) {
         return addressServiceV2.save(address);

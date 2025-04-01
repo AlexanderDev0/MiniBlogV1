@@ -1,4 +1,4 @@
-INSERT INTO frameBlog.userV2
+INSERT INTO frameBlog.user
 (user_id,
  email,
  name,

@@ -14,20 +14,20 @@ public class Post {
     private String content;
     private Date date;
     @ManyToOne
-    private UserV2 userV2Id;
+    private User userId;
 
     public Post() {
     }
 
-    public Post(final Long postId, final String title, final String content, final Date date, final UserV2 userV2Id) {
+    public Post(final Long postId, final String title, final String content, final Date date, final User userId) {
         this.postId = postId;
         this.title = title;
         this.content = content;
         this.date = date;
-        this.userV2Id = userV2Id;
+        this.userId = userId;
     }
 
-    public Post(Long postId, String title, String content, Date date, UserV2 userV2Id, Object tagId) {
+    public Post(Long postId, String title, String content, Date date, User userId, Object tagId) {
     }
 
     public Long getPostId() {
@@ -62,12 +62,12 @@ public class Post {
         this.date = date;
     }
 
-    public UserV2 getUserId() {
-        return userV2Id;
+    public User getUserId() {
+        return userId;
     }
 
-    public void setUserId(UserV2 userV2Id) {
-        this.userV2Id = userV2Id;
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     public Object getTagId() {

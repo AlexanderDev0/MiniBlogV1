@@ -1,7 +1,10 @@
 package com.descomplica.FrameBlog.controllers;
 
-import com.descomplica.FrameBlog.models.UserV2;
-import com.descomplica.FrameBlog.services.UserServiceV2;
+import com.descomplica.FrameBlog.models.User;
+import com.descomplica.FrameBlog.services.UserService;
+import com.descomplica.FrameBlog.services.v2.UserServiceV2;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,41 +13,44 @@ import java.util.List;
 @RequestMapping(path = "/users")
 public class UserController {
 
+    private final UserService userService;
     private final UserServiceV2 userServiceV2;
-
-    public UserController(UserServiceV2 userServiceV2) {
+    public UserController(UserService userService, UserServiceV2 userServiceV2) {
+        this.userService = userService;
         this.userServiceV2 = userServiceV2;
     }
 
-
-
-    @PostMapping("/save")
-    private @ResponseBody UserV2 save(@RequestBody UserV2 userV2) {
-        return userServiceV2.save(userV2);
+    @PostMapping(path = "/save")
+    private @ResponseBody User save(@RequestBody User user) {
+        return userService.save(user);
     }
+
+    @Cacheable
     @GetMapping(path = "/getAll")
-    private @ResponseBody List<UserV2> getAll() {
-        return userServiceV2.getAll();
+    private @ResponseBody List<User> getAll() {
+        return userService.getAll();
+
     }
 
-    @GetMapping(path="/get")
-    private @ResponseBody UserV2 get(@RequestParam final Long id) {
-        return userServiceV2.get(id);
+    // Versionamento por parâmetro de URI
+    // e via parâmetro no cabeçalho
+    @GetMapping(path = "/get")
+    private @ResponseBody ResponseEntity<Object> get(@RequestParam final Long id, @RequestParam final String uriVersion,
+                                                     @RequestHeader(name = "Accept-Version") final String acceptVersion) {
+
+        if (uriVersion.equals("v2") || acceptVersion.equals("v2")){
+            return ResponseEntity.ok(userServiceV2.get(id));
+        }
+        return ResponseEntity.ok(userService.get(id));
     }
 
     @PostMapping(path = "/update")
-    private @ResponseBody UserV2 update(@RequestParam final Long id, @RequestBody UserV2 userV2) {
-        return userServiceV2.update(id, userV2);
+    private @ResponseBody User update(@RequestParam final Long id, @RequestBody User user) {
+        return userService.update(id, user);
     }
 
     @DeleteMapping(path = "/delete")
     private void delete(@RequestParam final Long id) {
-        userServiceV2.delete(id);
-    }
-
-
-    @GetMapping(path = "/")
-    public @ResponseBody String authentication() {
-        return "Hello World";
+        userService.delete(id);
     }
 }
