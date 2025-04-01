@@ -3,20 +3,22 @@ package com.descomplica.FrameBlog.services.impl;
 import com.descomplica.FrameBlog.models.Comment;
 import com.descomplica.FrameBlog.services.CommentService;
 import com.descomplica.FrameBlog.services.UserService;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CommentServiceImpl implements CommentService {
 
-
-
-
+    private final AmqpTemplate amqpTemplate;
     private final UserService userService;
 
-    public CommentServiceImpl(UserService userService) {
+    public CommentServiceImpl(AmqpTemplate amqpTemplate, UserService userService) {
+        this.amqpTemplate = amqpTemplate;
         this.userService = userService;
     }
+
 
     @Value("${FrameBlog.rabbitmq.exchange}")
     private String exchange;
@@ -27,6 +29,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Comment send(Comment comment) {
         comment.setUser(userService.get(comment.getUser().getUserId()));
+
+        amqpTemplate.convertAndSend(exchange, routingkey, comment);
+        System.out.println("Send msg = " + comment);
         return comment;
     }
 }
